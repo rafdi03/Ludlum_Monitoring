@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Monitoring</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .lamp {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .lamp.safe {
+            background-color: green;
+        }
+        .lamp.alert {
+            background-color: yellow;
+        }
+        .lamp.danger {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Sensor Monitoring</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> Monitoring</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/form"><i class="fas fa-edit"></i> Form</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div id="data">
+                    <p id="sensorStatus" class="h5"></p>
+                    <div id="indicator" class="lamp"></div>
+                </div>
+                <canvas id="sensorChart"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Nilai Sensor</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTable">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0"></script> 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="/static/js/updateDate.js"></script>
+    <script>
+        function loadHistoryData() {
+            $.ajax({
+                url: '/history-data',
+                method: 'GET',
+                success: function(data) {
+                    var historyTable = $('#historyTable');
+                    historyTable.empty();
+                    data.forEach(function(record) {
+                        var row = '<tr>' +
+                            '<td>' + record.time + '</td>' +
+                            '<td>' + record.value + '</td>' +
+                            '<td>' + record.status + '</td>' +
+                            '</tr>';
+                        historyTable.append(row);
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            loadHistoryData();
+            setInterval(loadHistoryData, 60000); 
+        });
+    </script>
+</body>
+</html>

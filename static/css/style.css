@@ -1,0 +1,41 @@
+body {
+    background-color: #f8f9fa;
+}
+
+#data {
+    margin: 20px 0;
+}
+
+.lamp {
+    width: 20px;
+    height: 20px;
+    margin: 10px auto;
+    border-radius: 50%;
+    background-color: gray;
+}
+
+.lamp.safe {
+    background-color: green;
+}
+
+.lamp.danger {
+    background-color: red;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+}
+
+#sensorStatus {
+    margin-bottom: 10px;
+}
+
+.table-container {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 20px;
+}

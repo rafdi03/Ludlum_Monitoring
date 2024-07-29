@@ -1,0 +1,17 @@
+{
+    "listen_address": ":9091",
+    "wait_shutdown_sec": 5,
+    "alert_apis": ["http://192.168.1.204:9091/radserv/v1.0/summary-active-alerts"],
+    "pooling_seconds": 20,
+    "alarm_pin": 21,
+    "alert_pin": 20,
+    "buzzer_pin": 16,
+    "yellow_led_pin": 20,
+    "test_pin": 12,
+    "test_mode": false,
+    "tick_ms": 500,
+    "buzzer_on": 5,
+    "buzzer_off": 10,
+    "verbose": false,
+    "sensors": []
+}
